@@ -1,0 +1,85 @@
+//compile scss to generate equivalent css
+.accedo-slide {
+    margin: 10px 0;
+    &:hover {
+        transition: all .6s ease-in-out;
+        -ms-transform: scale(1.025);
+        /* IE 9 */
+        
+        -webkit-transform: scale(1.025);
+        /* Safari */
+        
+        transform: scale(1.025);
+        box-shadow: 0 7px 23px -10px grey;
+    }
+}
+
+.accedo-slide-title {
+    font-size: 24px;
+    text-align: center;
+    margin: 5px;
+    min-height: 68px;
+    height: auto;
+}
+
+.slick-wrapper {
+    background: #fff;
+    box-shadow: inset 0px -9px 15px -7px grey;
+    padding-bottom: 10px;
+    border: 1px solid #ddd;
+}
+
+.accedo-slide-video {
+    margin: auto;
+    width: 214px;
+    height: 317px;
+}
+
+//media queries responsive layout
+@media screen and (max-width: 1200px) {
+    .accedo-slide-video {
+        width: 212px;
+        height: 313px;
+    }
+    .container-title {
+        font-size: 35px;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+    .accedo-slide-title {
+        font-size: 22px;
+        min-height: 25px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .accedo-slide-video {
+        width: 230px;
+        height: 340px;
+    }
+    .container-title {
+        font-size: 30px;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+    .accedo-slide-title {
+        font-size: 18px;
+        min-height: 20px;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .accedo-slide-video {
+        width: 300px;
+        height: 300px;
+    }
+    .container-title {
+        font-size: 22px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .accedo-slide-title {
+        font-size: 18px;
+        min-height: 20px;
+    }
+}

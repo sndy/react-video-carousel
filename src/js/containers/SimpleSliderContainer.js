@@ -25,7 +25,7 @@ export default class SimpleSliderContainer extends React.Component {
     render() {
         return <div class="row">
             <div class="col-md-12">
-                <div class="container-title">Top Rated Movies</div>
+                <div class="container-title">Top Rated Videos</div>
                 <SimpleSlider videoData={this.state.videoData}></SimpleSlider>
             </div>
         </div>;

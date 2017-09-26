@@ -1,7 +1,7 @@
 {
   "name": "React-Video-Carousel",
   "version": "1.0.0",
-  "description": "Simple Slider Component build on react-slick",
+  "description": "Video Carousel built on react-slick",
   "main": "",
   "scripts": {
     "test": "mocha --compilers js:babel-core/register ./test/**/*-test.js --require ./test/test_helper.js --recursive",

@@ -22,5 +22,4 @@ To run the app
  - $> npm run dev
  - Go to http://localhost:8080/
 
- NOTE: Viewing experience may differ based on available network bandwidth
- Deployed Demo is minified dev build, please ignore the console warnings
+ NOTE: Viewing experience may differ based on available network bandwidth, deployed demo is minified dev build with mock data, please ignore the console warnings

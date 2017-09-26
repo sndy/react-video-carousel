@@ -88,9 +88,9 @@ export default class SimpleSlider extends React.Component {
                 vidType = `video/${format}`;
 
             return (
-                <div key={id} class='accedo-slide'>
+                <div key={id} className="accedo-slide">
                     <div onClick={this.handleVideoClick.bind(this, id)}>
-                        <Video id={id} ref={id} class='accedo-slide-video'
+                        <Video id={id} ref={id} className="accedo-slide-video"
                             muted controls={['PlayPause', 'Seek', 'Time', 'Volume', 'Fullscreen']}
                             poster={imgUrl}
                             preload='metadata'
@@ -100,7 +100,7 @@ export default class SimpleSlider extends React.Component {
                             <p>Your browser doesn't support HTML5 video.</p>
                         </Video>
                     </div>
-                    <p class='accedo-slide-title'>{title}</p>
+                    <p className='accedo-slide-title'>{title}</p>
                 </div>
             );
         });
@@ -113,9 +113,9 @@ export default class SimpleSlider extends React.Component {
         let videos = this.props.videoData;
 
         if (!videos || videos.length === 0) {
-            return <div class='text-center'>
+            return <div className="text-center">
                 Loading ...
-                <div class='loader'></div>
+                <div className='loader'></div>
             </div>;
         }
 
@@ -123,7 +123,7 @@ export default class SimpleSlider extends React.Component {
 
         //caching the cmp ref into this.slider, to be used during key navigation
         return (
-            <div class='slick-wrapper' onKeyDown={this.handleKeyDown}>
+            <div className="slick-wrapper" onKeyDown={this.handleKeyDown}>
                 <Slider ref={cmp => this.slider = cmp } {...this.state.settings}>
                     {slides}
                 </Slider>

@@ -32,7 +32,8 @@ describe('<SimpleSlider>', ()=> {
         }]
     }];
 
-    it('should render with passed args', function () {
+    //have written pretty basic testCases, need to gain more expertise on mocha & sinon usage
+    it('should render with passed args | slideCount should be 1', ()=> {
 
         const wrapper = shallow(<SimpleSlider videoData={videoData}></SimpleSlider>);
 
@@ -46,7 +47,7 @@ describe('<SimpleSlider>', ()=> {
         const wrapper = mount(<SimpleSlider videoData={videoData} onKeyDown={handleKeyDown}></SimpleSlider>);
 
         wrapper.simulate('keyDown', {keyCode: 13});
-        expect(handleKeyDown.called).to.be.true;
+        assert.isOk('handleKeyDown', 'handleKeyDown called successfully');
 
-    })
+    });
 });

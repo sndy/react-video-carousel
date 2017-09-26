@@ -23,3 +23,4 @@ To run the app
  - Go to http://localhost:8080/
 
  NOTE: Viewing experience may differ based on available network bandwidth
+ Deployed Demo is minified dev build, please ignore the console warnings

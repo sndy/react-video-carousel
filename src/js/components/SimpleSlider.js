@@ -3,67 +3,32 @@ import ReactDOM from 'react-dom'
 import { Link } from 'react-router';
 import Slider from 'react-slick';
 import { DefaultPlayer as Video } from 'react-html5video';
+import config from '../config';
 
 export default class SimpleSlider extends React.Component {
 
     constructor (props) {
         super (props);
-        this.state = this.setInitialState();
+        this.state = this._setInitialState();
         this.handleKeyDown = this.handleKeyNavigation.bind(this);
         this.handleVideoClick = this.playSelectedVideo.bind(this);
     }
 
     //**
-    /* moved settings from this.state to const
+    /* moved static settings to config
     /* slidesToScroll limit will vary (not fixed to 5) specific to the breakpoint, for better UX
     */
-    setInitialState () {
-        const config = {
-            settings: {
-            accessibility: true,
-            dots: false,
-            lazyLoad: true,
-            focusOnSelect: false,
-            infinite: false,
-            slideCount: this.props.videoData ? this.props.videoData.length : 0,
-            slidesToShow: 5,
-            slidesToScroll: 5,
-            speed: 800,
-            //slider config- responsive features
-            responsive: [
-                {
-                    breakpoint: 1200,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3
-                    }
-                },
-                {
-                    breakpoint: 768,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2
-                    }
-                },
-                {
-                    breakpoint: 550,
-                    settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1
-                    }
-                }
-            ]
-        }
-        };
+    _setInitialState () {
+        let sliderSettings = config.sliderSettings;
+        sliderSettings.slideCount = this.props.videoData ? this.props.videoData.length : 0;
 
-        return config;
+        return {settings: sliderSettings};
     }
 
     //*method impl. to handle keyEvent
     /* initialized after user clicks on any video/title/nav arrows
     */
     handleKeyNavigation (event) {
-
         //KEYUP event- scroll to prev slide
         if (event.keyCode === 38 || event.which === 38) {
             this.slider.slickPrev();
@@ -77,39 +42,40 @@ export default class SimpleSlider extends React.Component {
 
     //*
     /* method impl. to play fullscreen videos
-    /* using vanilla js to handle video play func. --- though ideally should be done via ReactDOM
+    /* using document.getElementById handle video play func. since ReactDOM node does not occupy fullscreen by default
     */
     playSelectedVideo (selectedVidId) {
-        var elem = document.getElementById(selectedVidId);
+        let $video = document.getElementById(selectedVidId);//ReactDOM.findDOMNode(this.refs[selectedVidId]);
 
-        if (elem != null) {
+        if ($video != null) {
 
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.webkitRequestFullscreen) {
-                elem.webkitRequestFullscreen();
-            } else if (elem.mozRequestFullScreen) {
-                elem.mozRequestFullScreen();
-            } else if (elem.msRequestFullscreen) {
-                elem.msRequestFullscreen();
-            }
+            //browser sepecific fullscreen apis list 
+            let apis = config.fullscreenApis;
 
-            //exit fullscreen when video ends
-            document.getElementById(selectedVidId).addEventListener('ended', (e)=> {
-                elem.webkitExitFullScreen();
-            }, false);
+            for (let i = 0; i < apis.length; i++) {
+                if ($video[apis[i][0]]) {
+                    
+                    //invoke full screen
+                    $video[apis[i][0]]();
+                    
+                    let resetVideo = ()=> {
+                        if (document[apis[i][2]] === false) {
+                            $video.pause();
+                            $video.currentTime = 0;
+                        }
+                    };
+                    //bind reset video on fullscreen exit event
+                    document.addEventListener(apis[i][1], i=> resetVideo(i), false);
 
-            let resetVideo = ()=> {
-                if (document.webkitIsFullScreen === false || document.mozFullScreen === false || document.msFullscreenElement === false) {
-                    elem.pause();
-                    elem.currentTime = 0;
+                    //bind exit fullscreen when video ends
+                    let exitFullScreenPlay = ()=> {
+                        $video[apis[i][3]]();
+                    };
+                    $video.addEventListener('ended', (i)=> exitFullScreenPlay(i), false);
+
+                    return;
                 }
-            };
-
-            document.addEventListener('fullscreenchange', resetVideo, false);
-            document.addEventListener('webkitfullscreenchange', resetVideo, false);
-            document.addEventListener('mozfullscreenchange', resetVideo, false);
-            document.addEventListener('MSFullscreenChange', resetVideo, false);
+            }
         }
     }
 
@@ -118,24 +84,23 @@ export default class SimpleSlider extends React.Component {
     */
     prepareSlides (videos) {
         return videos.map(video => {
-
             let {id, title, images: [{url: imgUrl}], contents: [{url, format}]} = video,
                 vidType = `video/${format}`;
 
             return (
-                <div key={id} class="accedo-slide">
+                <div key={id} class='accedo-slide'>
                     <div onClick={this.handleVideoClick.bind(this, id)}>
-                        <Video id={id} class="accedo-slide-video"
+                        <Video id={id} ref={id} class='accedo-slide-video'
                             muted controls={['PlayPause', 'Seek', 'Time', 'Volume', 'Fullscreen']}
                             poster={imgUrl}
-                            preload="metadata"
+                            preload='metadata'
                             alt={video.description}>
                             <source src={url} type={vidType}/>
 
                             <p>Your browser doesn't support HTML5 video.</p>
                         </Video>
                     </div>
-                    <p class="accedo-slide-title">{title}</p>
+                    <p class='accedo-slide-title'>{title}</p>
                 </div>
             );
         });
@@ -148,9 +113,9 @@ export default class SimpleSlider extends React.Component {
         let videos = this.props.videoData;
 
         if (!videos || videos.length === 0) {
-            return <div class="text-center">
+            return <div class='text-center'>
                 Loading ...
-                <div class="loader"></div>
+                <div class='loader'></div>
             </div>;
         }
 
@@ -158,7 +123,7 @@ export default class SimpleSlider extends React.Component {
 
         //caching the cmp ref into this.slider, to be used during key navigation
         return (
-            <div class="slick-wrapper" onKeyDown={this.handleKeyDown}>
+            <div class='slick-wrapper' onKeyDown={this.handleKeyDown}>
                 <Slider ref={cmp => this.slider = cmp } {...this.state.settings}>
                     {slides}
                 </Slider>

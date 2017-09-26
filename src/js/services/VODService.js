@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default class VODService {
 	constructor(endpointUrl) {
-		this.endpointUrl = 'http://demo2697834.mockable.io/movies';
+		this.endpointUrl = endpointUrl;
 	}
 	getData() {
 		return axios.get(this.endpointUrl)

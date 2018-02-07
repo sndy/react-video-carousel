@@ -32,7 +32,6 @@ describe('<SimpleSlider>', ()=> {
         }]
     }];
 
-    //have written pretty basic testCases, need to gain more expertise on mocha & sinon usage
     it('should render with passed args | slideCount should be 1', ()=> {
 
         const wrapper = shallow(<SimpleSlider videoData={videoData}></SimpleSlider>);

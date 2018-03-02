@@ -10,7 +10,6 @@
   },
   "keywords": [],
   "author": "Sandeep Chauhan",
-  "license": "ISC",
   "babel": {
     "presets": [
       "react",

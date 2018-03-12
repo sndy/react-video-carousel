@@ -1,6 +1,7 @@
 # react-video-carousel
 
 [Demo](http://www.sndy.in)
+![Ondemand Video Channel](/myTube.png "This is how it looks")
 
 Simple Slider Component built on react-slick
 =============================================
